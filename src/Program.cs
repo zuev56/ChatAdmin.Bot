@@ -40,7 +40,7 @@ namespace ChatAdmin.Bot
         {
             try
             {
-                Serilog.Log.Logger = new LoggerConfiguration()
+                Log.Logger = new LoggerConfiguration()
                     .ReadFrom.Configuration(CreateConfiguration(args), "Serilog")
                     .CreateLogger();
 
@@ -124,7 +124,7 @@ namespace ChatAdmin.Bot
                             sp.GetService<ILogger<ConnectionAnalyser>>(),
                             hostContext.Configuration.GetSection("ConnectionAnalyser:Urls").Get<string[]>());
 
-                        if (hostContext.Configuration.GetSection("Proxy:UseProxy")?.Get<bool>() == true)
+                        if (hostContext.Configuration.GetValue<bool>("Proxy:UseProxy") == true)
                         {
                             connectionAnalyzer.InitializeProxy(hostContext.Configuration["Proxy:Socket"],
                                 hostContext.Configuration.GetSecretValue("Proxy:Login"),
